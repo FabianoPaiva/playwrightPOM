@@ -1,6 +1,6 @@
 // fixtures/auth.fixture.ts
 import { test as base } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
+import { LoginPage } from '../pages/LoginPage.js';
 
 // Definindo os tipos das Fixtures customizadas
 type MyFixtures = {

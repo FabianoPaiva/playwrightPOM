@@ -1,8 +1,7 @@
 // pages/LoginPage.ts
-import { Page, Locator } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
 export class LoginPage {
-  // Mapeamento encapsulado dos elementos
   readonly page: Page;
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
@@ -19,19 +18,20 @@ export class LoginPage {
     this.statusMessage = page.locator('#statusMessage');
   }
 
-  // Método para acessar a tela de login da LojaQA
   async goto() {
     await this.page.goto('https://alisonmelo.github.io/tioalison-pe-t4-fap26/projetos-base/01-sistema-login/login.html');
   }
 
-  // Método de ação para preencher credenciais e submeter
   async login(email: string, pass: string) {
     await this.emailInput.fill(email);
     await this.passwordInput.fill(pass);
-    await this.loginButton.click();
+    
+    // Regra de segurança: só clica se o botão estiver habilitado (evita timeout se campos estiverem vazios)
+    if (await this.loginButton.isEnabled()) {
+      await this.loginButton.click();
+    }
   }
 
-  // Métodos de apoio para checar estado do botão
   async isLoginButtonEnabled(): Promise<boolean> {
     return await this.loginButton.isEnabled();
   }
